@@ -1,0 +1,14 @@
+{
+  "name": "tarkov-image-processor",
+  "version": "1.0.0",
+  "description": "Uses template matching to parse information related to Escape From Tarkov",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.7.4"
+  }
+}
