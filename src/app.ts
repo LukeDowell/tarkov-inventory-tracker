@@ -1,15 +1,14 @@
 import screenshot from 'screenshot-desktop'
-import fs from 'fs'
+import cv from 'opencv-ts'
+import Jimp from 'jimp'
 
-screenshot().then((img) => {
-  console.log(`Start - ${new Date()}`)
-  fs.writeFile('out.jpg', img,  (err) => {
-    console.log(`Image Retrieved - ${new Date()}`)
-    if (err) {
-      throw err
-    }
-    console.log('written to out.jpg')
+let startTime = new Date().getTime();
+screenshot()
+  .then((buf: Buffer) => {
+    console.log(`Screenshot ${new Date().getTime() - startTime} milliseconds`)
+    return Promise.resolve(Jimp.read(buf))
   })
-}).catch((err) => {
-  throw err
-})
+  .then((image: Jimp) => {
+    console.log(`Total ${new Date().getTime() - startTime} milliseconds`)
+  })
+  .catch((err)   => { throw err })
