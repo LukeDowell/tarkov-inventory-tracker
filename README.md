@@ -108,3 +108,106 @@ way I'm gonna have something useful if each item takes 1 second. I need to be ab
 hoping that image size drastically impacts the timing, if it does then I am probably just going to move ahead with my 
 idea of using just the black-and-white text to find images. Then I can modify the screenshot utility to only take a picture
 of the left half of the screen, and hopefully we will have a usable processing time.
+
+Uh oh, turns out I didn't have it working after all. Here is a snippet of the test:
+
+```typescript
+    const point = new cv.Point(maxPoint.x + templ.cols, maxPoint.y + templ.rows)
+
+    dst.delete()
+    mask.delete()
+    templ.delete()
+
+    expect([point.x, point.y]).toEqual([846, 127])
+```
+
+In this test case, turns out the `templ` image's size is 846x127. Upon inspecting the actual result of the template match
+call, I discovered it's undefined. RIP. 
+
+Okay that ended up being some async issues w/ Jest, I tried to load the image in a `beforeAll` but it caused the image
+to not be there when the test was running. I plopped it all back in the test enclosure and now am starting to inspect 
+my results. 
+
+For the test where I SHOULD NOT find the template image, my result looks like this:
+
+```
+{
+  "minVal": -50478908,
+  "maxVal": 68386448,
+  "minLoc": {
+    "x": 2941,
+    "y": 245
+  },
+  "maxLoc": {
+    "x": 1991,
+    "y": 65
+  }
+}
+```
+
+For the test where I SHOULD find the template image, my result looks like this:
+
+```
+{
+  "minVal": -22742510,
+  "maxVal": 37480360,
+  "minLoc": {
+    "x": 2671,
+    "y": 402
+  },
+  "maxLoc": {
+    "x": 719,
+    "y": 0
+  }
+}
+```
+
+
+I popped open the stash image in GIMP and looked at some of the coordinates being output above. None of the coordinates
+point where I would expect; the positive test case is sort of nearby the helmet but it is too
+high. I'm wondering if there is some kind of offset in terms of me needing to account for image
+size or something.  
+
+While I was in Gimp I pulled out the text of the helmet and saved it. Using that instead of the full image nets me 
+this result:
+
+```
+{
+  "minVal": -2963167.5,
+  "maxVal": 8348142,
+  "minLoc": {
+    "x": 880,
+    "y": 733
+  },
+  "maxLoc": {
+    "x": 922,
+    "y": 189
+  }
+}
+```
+
+The maxLoc coordinates are right on the money! Cool stuff. I am wondering what the minVal and maxVal values 
+are from; I saw a comment on a stackoverflow post that said they are measures of confidence, but the numbers
+are very large and distance from one another. 
+
+[The post in question](https://stackoverflow.com/questions/8520882/how-to-know-if-matchtemplate-found-an-object-or-not)
+
+The answer:
+
+    matchTemplate() returns a matrix whose values indicate the probability that your object is centered in that pixel.
+    If you know the object (and only one object) is there, all you have to do is look for the location of the maximum value.
+    
+    If you don't know, you have to find the max value, and if it is above a certain threshold, your object should be there.
+    
+    Now, selection of that threshold is tricky - it's up to you to find the good threshold specifically for your app. 
+    And of course you'll have some false positives (when there is no object, but the max is bigger than threshold), 
+    and some false negatives (your object does not create a big enough peak)
+    
+    The way to choose the threshold is to collect a fairly large database of images with and without your object inside, 
+    and make a statistic of how big is the peak when object is inside, and how big is when it isn't, and choose the
+    threshold that best separates the two classes
+
+I'm thinking of starting on the scraper that is going to pull down thumbnails for all these template images just to mix
+up the work a bit. I remember having a teacher who was a fan of photoshop, and one day he showed us the "batch" processing
+functionality that allowed him to modify different assets all at once. I'm wondering if I will be able to extract
+the black-and-white item text in that fashion.
