@@ -10,8 +10,8 @@ import * as fs from "fs";
 // CRAWLER //
 /////////////
 
-const crawler = new Crawler({ maxConnections: 4 })
-const imageCrawler = new Crawler({ maxConnections: 15, encoding: null, jQuery: false })
+const crawler = new Crawler({ maxConnections: 10 })
+const imageCrawler = new Crawler({ maxConnections: 5, encoding: null, jQuery: false })
 
 crawler.queue([{
   uri: 'https://escapefromtarkov.fandom.com/wiki/Headwear',
@@ -20,12 +20,13 @@ crawler.queue([{
     else {
       console.log(`Retrieved Helmet page at ${new Date().getTime()}`)
       const helmetData = scrapeHelmets(cheerio.load(res.body))
-      helmetData.forEach((h) => {
+      helmetData.forEach((h, i) => {
         if (h.iconUrl.includes('data:image/gif')) {
           console.log(`Skipping ${h.name} due to gif icon`)
           return
         }
 
+        console.log(`queueing image ${i} ${h.iconUrl}`)
         imageCrawler.queue([{ uri: h.iconUrl, callback: imageDownloadCallback(h.name) }])
       })
     }
@@ -34,14 +35,33 @@ crawler.queue([{
   }
 }])
 
-const imageDownloadCallback = (name: string) => (err, res, done) => {
+const imageDownloadCallback = (name: string) => async (err, res, done) => {
   console.log(`Downloading image for ${name} at ${new Date().getTime()}`)
-  if(err) console.error(err.stack);
-  else{
-    fs.createWriteStream(`./data/template/${name}.png`).write(res.body);
-    console.log(`Finished saving image for ${name} at ${new Date().getTime()}`)
+
+  if(err) {
+    console.error(err.stack);
+    done()
+    return
   }
-  done()
+
+  try {
+    const writeStream = fs.createWriteStream(`./data/template/${name}.png`);
+    if (!writeStream.write(res.body)) {
+      console.log(`WAITING on ${name}`)
+      await new Promise((resolve) => {
+        writeStream.on('drain', () => {
+          console.log(`DONE WAITING on ${name}`)
+          resolve(undefined)
+        })
+      })
+    }
+    console.log(`Finished saving image for ${name} at ${new Date().getTime()}`)
+  } catch (err) {
+    console.error(`ERROR saving image for ${name} at ${new Date().getTime()}`)
+    console.error(err)
+  } finally {
+    done()
+  }
 }
 
 /////////////
@@ -58,6 +78,8 @@ export function scrapeHelmets($: Root): Array<Helmet & { iconUrl: string }> {
 function rowToHelmet(rowElement: Element): Helmet & { iconUrl: string } | undefined {
   const $ = cheerio.load(rowElement)
   try {
+    const maybeIconUrl = $('img').attr('src')
+    const iconUrl = maybeIconUrl.includes('data:image/gif') ? $('img').attr('data-src') : maybeIconUrl
     return {
       name: sanitizeText($('a').attr('title')),
       material: sanitizeText($('td:nth-child(3)').text()) as ArmorMaterial,
@@ -72,7 +94,7 @@ function rowToHelmet(rowElement: Element): Helmet & { iconUrl: string } | undefi
       soundReductionPenalty: sanitizeText($('td:nth-child(12)').text()) as SoundReduction,
       blocksHeadset: sanitizeText($('td:nth-child(13)').text()) === 'Yes',
       weight: parseFloat(sanitizeText($('td:nth-child(14)').attr('data-sort-value'))),
-      iconUrl: sanitizeText($('img').attr('src')),
+      iconUrl
     }
   } catch (err) {
     console.error(`Error while parsing helmet row: ${err}`)
@@ -81,8 +103,9 @@ function rowToHelmet(rowElement: Element): Helmet & { iconUrl: string } | undefi
 }
 
 function sanitizeText(s: string): string {
-  return s.replace('%', '')
+  return s.replace(/%/, '')
     .replace('\r', '')
     .replace('\n', '')
+    .replace(/['"]+/g, '')
     .trim()
 }

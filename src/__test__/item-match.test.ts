@@ -3,9 +3,9 @@ import Jimp from "jimp";
 
 describe('a template matching example', () => {
   it('should match a 6b47 helmet',  async () => {
-    const srcImg = await Jimp.read('./src/stash-screenshot-gear.png')
+    const srcImg = await Jimp.read('./src/__test__/stash-screenshot-gear.png')
     const src = cv.matFromImageData(srcImg.bitmap as any)
-    const templImg = await Jimp.read('./data/template/6b47-test.png')
+    const templImg = await Jimp.read('./src/__test__/6b47-test.png')
     const templ = cv.matFromImageData(templImg.bitmap as any)
 
     const dst = new cv.Mat()
@@ -25,9 +25,9 @@ describe('a template matching example', () => {
   })
 
   it('should not match a 6b3tm-01m armored rig',  async () => {
-    const srcImg = await Jimp.read('./src/test/stash-screenshot-gear.png')
+    const srcImg = await Jimp.read('./src/__test__/stash-screenshot-gear.png')
     const src = cv.matFromImageData(srcImg.bitmap as any)
-    const templImg = await Jimp.read('./data/template/6b3tm-01m-test.png')
+    const templImg = await Jimp.read('./src/__test__/6b3tm-01m-test.png')
     const templ = cv.matFromImageData(templImg.bitmap as any)
 
     const dst = new cv.Mat()

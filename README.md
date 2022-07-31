@@ -287,3 +287,8 @@ I wonder what is up with that? What is also weird is that the very first entry i
 others do. My first thought is that this is actually anti-crawler behavior to help protect their bandwidth, which would
 maybe be a little annoying but not that bad. I can just use a headless browser to gather the image URLs and then still
 just pass them to Crawler if I wish. 
+
+
+Okay turns out it was nothing, seemingly randomly the web page uses `data-src` to hold the real URL. The scraper works!
+I think all helmets have been downloaded. Next up I'm going to write some helmet-scanning code to see if I can detect
+equipment changes. I'm guessing this will be pretty chunky and lead in to pulling out the `screenshot-desktop` code. 
