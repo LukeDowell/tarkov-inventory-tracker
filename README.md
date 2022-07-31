@@ -211,3 +211,65 @@ I'm thinking of starting on the scraper that is going to pull down thumbnails fo
 up the work a bit. I remember having a teacher who was a fan of photoshop, and one day he showed us the "batch" processing
 functionality that allowed him to modify different assets all at once. I'm wondering if I will be able to extract
 the black-and-white item text in that fashion.
+
+Before I forget, for completeness here is the result of the text for an item that is NOT on the screen:
+
+```
+{
+  "minVal": -2654454.75,
+  "maxVal": 3559548.5,
+  "minLoc": {
+    "x": 1353,
+    "y": 605
+  },
+  "maxLoc": {
+    "x": 1145,
+    "y": 835
+  }
+}
+```
+
+The first thing I notice is that the relationship between the minVal and maxVal numbers aren't what I was expecting. If a 
+larger maxVal indicates higher confidence, I would expect the negative test case with the full template image earlier to
+have a lower value than it's opposite, positive test case. The test results before were not very good, although I am still a 
+little weirded out.
+
+Okay made some progress on the web crawler / scraper front, revel in it's glory:
+
+```typescript
+function rowToHelmet(rowElement: Element): Helmet & { iconUrl: string } | undefined {
+  const $ = cheerio.load(rowElement)
+  try {
+    return {
+      name: $('a').attr('title'),
+      material: $('td:nth-child(3)').text().replace('\n', '') as ArmorMaterial,
+      class: parseInt($('td:nth-child(4)').text().replace('\n', '')) as ArmorClass,
+      areas: $('td:nth-child(5)').text().replace('\n', '').replace(' ', '').split(',') as HelmetArea[],
+      durability: parseInt($('td:nth-child(6)').text().replace('\n', '')),
+      effectiveDurability: parseInt($('td:nth-child(7)').text().replace('\n', '')),
+      ricochetChance: $('td:nth-child(8)').text().replace('\n', '') as RicochetChance,
+      movementSpeedPenalty: parseInt($('td:nth-child(9)').text().replace('\n', '').replace('%', '')),
+      turningSpeedPenalty: parseInt($('td:nth-child(10)').text().replace('\n', '').replace('%', '')),
+      ergonomicsPenalty: parseInt($('td:nth-child(11)').text().replace('\n', '').replace('%', '')),
+      soundReductionPenalty: $('td:nth-child(12)').text().replace('\n', '') as SoundReduction,
+      blocksHeadset: $('td:nth-child(13)').text().replace('\n', '') === 'Yes',
+      weight: parseFloat($('td:nth-child(14)').attr('data-sort-value')),
+      iconUrl: $('img').attr('src'),
+    }
+  } catch (err) {
+    console.error(`Error while parsing helmet row: ${err}`)
+    return undefined
+  }
+}
+```
+
+Cheerio worked perfectly, very neat. Now to test the crawler aspect, I'm curious to see how it works in terms of concurrent
+image downloads. Things I need to think about moving forward:
+
+1. Check out SQLite, if we are going to be keeping track of user data over a long period of time, that might be a nice
+   way to go about it
+2. Investigate how image size affects the ability to template-match. I'm wondering if my bad results from the first 
+   matching tests had anything to do with the actual sizes of the images not matching up. I'm not even sure if that would matter,
+   I may have to do some resizing w/ Jimp or figure out a standard ratio going forward.
+3. Bulk processing of these images in order to extract the black and white text. It would be neat if I could commit 
+   whatever that solution ends up being...
