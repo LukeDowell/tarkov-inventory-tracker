@@ -1,13 +1,55 @@
 import cheerio from 'cheerio'
 import {ArmorClass, ArmorMaterial, Helmet, HelmetArea, RicochetChance, SoundReduction} from "../gear";
 import Element = cheerio.Element;
+import Crawler from 'crawler'
+import Root = cheerio.Root;
+import * as fs from "fs";
+
+
+/////////////
+// CRAWLER //
+/////////////
+
+const crawler = new Crawler({ maxConnections: 4 })
+const imageCrawler = new Crawler({ maxConnections: 15, encoding: null, jQuery: false })
+
+crawler.queue([{
+  uri: 'https://escapefromtarkov.fandom.com/wiki/Headwear',
+  callback: (err, res, done) => {
+    if (err) console.error(err)
+    else {
+      console.log(`Retrieved Helmet page at ${new Date().getTime()}`)
+      const helmetData = scrapeHelmets(cheerio.load(res.body))
+      helmetData.forEach((h) => {
+        if (h.iconUrl.includes('data:image/gif')) {
+          console.log(`Skipping ${h.name} due to gif icon`)
+          return
+        }
+
+        imageCrawler.queue([{ uri: h.iconUrl, callback: imageDownloadCallback(h.name) }])
+      })
+    }
+
+    done()
+  }
+}])
+
+const imageDownloadCallback = (name: string) => (err, res, done) => {
+  console.log(`Downloading image for ${name} at ${new Date().getTime()}`)
+  if(err) console.error(err.stack);
+  else{
+    fs.createWriteStream(`./data/template/${name}.png`).write(res.body);
+    console.log(`Finished saving image for ${name} at ${new Date().getTime()}`)
+  }
+  done()
+}
 
 /////////////
 // HELMETS //
 /////////////
 
-export function scrapeHelmets(page: string | Buffer): Array<Helmet & { iconUrl: string }> {
-  return cheerio.load(page)('#Armored').parent().next('.table-wide').find('tbody').children()
+export function scrapeHelmets($: Root): Array<Helmet & { iconUrl: string }> {
+  return $('#Armored').parent().next().children('tbody').children()
     .toArray()
     .map(rowToHelmet)
     .filter((h): h is Helmet & { iconUrl: string } => !!h)
@@ -17,23 +59,30 @@ function rowToHelmet(rowElement: Element): Helmet & { iconUrl: string } | undefi
   const $ = cheerio.load(rowElement)
   try {
     return {
-      name: $('a').attr('title'),
-      material: $('td:nth-child(3)').text().replace('\n', '') as ArmorMaterial,
-      class: parseInt($('td:nth-child(4)').text().replace('\n', '')) as ArmorClass,
-      areas: $('td:nth-child(5)').text().replace('\n', '').replace(' ', '').split(',') as HelmetArea[],
-      durability: parseInt($('td:nth-child(6)').text().replace('\n', '')),
-      effectiveDurability: parseInt($('td:nth-child(7)').text().replace('\n', '')),
-      ricochetChance: $('td:nth-child(8)').text().replace('\n', '') as RicochetChance,
-      movementSpeedPenalty: parseInt($('td:nth-child(9)').text().replace('\n', '').replace('%', '')),
-      turningSpeedPenalty: parseInt($('td:nth-child(10)').text().replace('\n', '').replace('%', '')),
-      ergonomicsPenalty: parseInt($('td:nth-child(11)').text().replace('\n', '').replace('%', '')),
-      soundReductionPenalty: $('td:nth-child(12)').text().replace('\n', '') as SoundReduction,
-      blocksHeadset: $('td:nth-child(13)').text().replace('\n', '') === 'Yes',
-      weight: parseFloat($('td:nth-child(14)').attr('data-sort-value')),
-      iconUrl: $('img').attr('src'),
+      name: sanitizeText($('a').attr('title')),
+      material: sanitizeText($('td:nth-child(3)').text()) as ArmorMaterial,
+      class: parseInt(sanitizeText($('td:nth-child(4)').text())) as ArmorClass,
+      areas: sanitizeText($('td:nth-child(5)').text()).replace(' ', '').split(',') as HelmetArea[],
+      durability: parseInt(sanitizeText($('td:nth-child(6)').text())),
+      effectiveDurability: parseInt(sanitizeText($('td:nth-child(7)').text())),
+      ricochetChance: sanitizeText($('td:nth-child(8)').text()) as RicochetChance,
+      movementSpeedPenalty: parseInt(sanitizeText($('td:nth-child(9)').text())),
+      turningSpeedPenalty: parseInt(sanitizeText($('td:nth-child(10)').text())),
+      ergonomicsPenalty: parseInt(sanitizeText($('td:nth-child(11)').text())),
+      soundReductionPenalty: sanitizeText($('td:nth-child(12)').text()) as SoundReduction,
+      blocksHeadset: sanitizeText($('td:nth-child(13)').text()) === 'Yes',
+      weight: parseFloat(sanitizeText($('td:nth-child(14)').attr('data-sort-value'))),
+      iconUrl: sanitizeText($('img').attr('src')),
     }
   } catch (err) {
     console.error(`Error while parsing helmet row: ${err}`)
     return undefined
   }
+}
+
+function sanitizeText(s: string): string {
+  return s.replace('%', '')
+    .replace('\r', '')
+    .replace('\n', '')
+    .trim()
 }

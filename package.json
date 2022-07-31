@@ -5,7 +5,7 @@
   "main": "dist/app.js",
   "scripts": {
     "start": "tsc && node dist/app.js",
-    "scraper": "tsc && node dist/scraper.js",
+    "scraper": "tsc && node dist/scraper/scraper.js",
     "test": "jest",
     "lint": "npx eslint . --ext .ts"
   },

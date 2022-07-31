@@ -1,10 +1,11 @@
 import {scrapeHelmets} from "./scraper";
 import * as fs from "fs";
+import cheerio from 'cheerio'
 
 describe('the scraper', () => {
   it('should parse the headwear page', async () => {
     const page: Buffer = await new Promise((r) => fs.readFile('./src/scraper/Headwear.html', (e, d) => r(d)))
-    const result = scrapeHelmets(page)
+    const result = scrapeHelmets(cheerio.load(page))
 
     const expected = {
       name: "Tac-Kek FAST MT helmet (replica)",

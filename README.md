@@ -273,3 +273,17 @@ image downloads. Things I need to think about moving forward:
    I may have to do some resizing w/ Jimp or figure out a standard ratio going forward.
 3. Bulk processing of these images in order to extract the black and white text. It would be neat if I could commit 
    whatever that solution ends up being...
+
+## 07/31/2022
+
+Interesting, I am seeing different results using the crawler than I am with my browser. Part of my code selects the nearest
+image inside of a table row, finds its source, and assumes that is the icon image for the given piece of gear. In my browser
+most of these URLs are pretty normal: [Altyn Image](https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2d/AltynHelmetIcon.png/revision/latest?cb=20180517203714)
+
+I took the response of the crawler and replaced my test file's contents with the response's body and noticed the URLs are 
+different: `data:image/gif;base64,R0lGODlhAQABAIABAAAAAP///yH5BAEAAAEALAAAAAABAAEAQAICTAEAOw%3D%3D`
+
+I wonder what is up with that? What is also weird is that the very first entry in the table has an image, but none of the
+others do. My first thought is that this is actually anti-crawler behavior to help protect their bandwidth, which would
+maybe be a little annoying but not that bad. I can just use a headless browser to gather the image URLs and then still
+just pass them to Crawler if I wish. 
