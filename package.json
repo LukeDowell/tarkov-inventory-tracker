@@ -1,33 +1,49 @@
 {
-  "name": "tarkov-image-processor",
-  "version": "1.0.0",
-  "description": "Uses template matching to parse information related to Escape From Tarkov",
-  "main": "dist/app.js",
-  "scripts": {
-    "start": "tsc && node dist/app.js",
-    "scraper": "tsc && node dist/scraper/scraper.js",
-    "test": "jest",
-    "lint": "npx eslint . --ext .ts"
-  },
-  "author": "Luke Dowell",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/cheerio": "^0.22.31",
-    "@types/crawler": "^1.2.2",
-    "@types/jest": "^28.1.6",
-    "@types/node": "^18.6.2",
-    "@typescript-eslint/eslint-plugin": "^5.31.0",
-    "@typescript-eslint/parser": "^5.31.0",
-    "eslint": "^8.20.0",
-    "jest": "^28.1.3",
-    "ts-jest": "^28.0.7",
-    "typescript": "^4.7.4"
-  },
-  "dependencies": {
-    "cheerio": "^0.22.0",
-    "crawler": "^1.3.0",
-    "jimp": "^0.16.1",
-    "opencv-ts": "^1.3.6",
-    "screenshot-desktop": "^1.12.7"
-  }
+    "app_name": "tarkov-inventory-tracker",
+    "author": "Luke Dowell",
+    "dependencies": {
+        "cheerio": "^0.22.0",
+        "crawler": "^1.3.0",
+        "jimp": "^0.16.1",
+        "nw": "^0.66.1",
+        "opencv-ts": "^1.3.6",
+        "screenshot-desktop": "^1.12.7"
+    },
+    "description": "Uses template matching to parse information related to Escape From Tarkov",
+    "devDependencies": {
+        "@types/cheerio": "^0.22.31",
+        "@types/crawler": "^1.2.2",
+        "@types/jest": "^28.1.6",
+        "@types/node": "^18.6.2",
+        "@typescript-eslint/eslint-plugin": "^5.31.0",
+        "@typescript-eslint/parser": "^5.31.0",
+        "eslint": "^8.20.0",
+        "jest": "^28.1.3",
+        "ts-jest": "^28.0.7",
+        "typescript": "^4.7.4"
+    },
+    "license": "ISC",
+    "main": "./index.html",
+    "name": "tarkov-inventory-tracker",
+    "nodejs": true,
+    "scripts": {
+        "lint": "npx eslint . --ext .ts",
+        "scraper": "tsc && node dist/scraper/scraper.js",
+        "start": "tsc && node dist/app.js",
+        "start-nw": "tsc && ../sdk/nwjs/nw.exe .",
+        "start-nw-powershell": "tsc && \"..\\sdk\\nwjs\\nw.exe\" .",
+        "test": "jest"
+    },
+    "version": "1.0.0",
+    "webkit": {},
+    "window": {
+        "frame": true,
+        "id": "tarkov-image-processor",
+        "fullscreen": true,
+        "resizable": true,
+        "show": true,
+        "show_in_taskbar": true,
+        "title": "Tarkov Inventory Tracker",
+        "visible": true
+    }
 }

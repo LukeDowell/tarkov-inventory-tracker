@@ -1,5 +1,13 @@
 ## Tarkov Image Processor
 
+## Running
+
+1. Download sdk binary from [https://nwjs.io/](https://nwjs.io/)
+2. Unpack zip to `../sdk/nwjs`
+3. Use `npm run start-nw` or `npm run start-nw-powershell`
+
+## Journal
+
 Pretty awful name, nice. The general idea of this app is to use OpenCV's template matching to parse screenshots of 
 Tarkov in order to keep track of player statistics. I'd like to be able to tell users things like:
  * Your favorite loadout is X
