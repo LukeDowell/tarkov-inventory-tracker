@@ -1,6 +1,5 @@
 import screenshot from 'screenshot-desktop'
 import Jimp from 'jimp'
-import * as fs from "fs";
 
 let startTime = new Date().getTime();
 screenshot()
