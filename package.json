@@ -30,20 +30,21 @@
         "lint": "npx eslint . --ext .ts",
         "scraper": "tsc && node dist/scraper/scraper.js",
         "start": "tsc && node dist/app.js",
-        "start-nw": "tsc && ../sdk/nwjs/nw.exe .",
-        "start-nw-powershell": "tsc && \"..\\sdk\\nwjs\\nw.exe\" .",
+        "start-nw": "tsc && ../sdk/nwjs/nw.exe --disable-gpu-compositing --force-cpu-draw .",
+        "start-nw-powershell": "tsc && \"..\\sdk\\nwjs\\nw.exe\" --disable-gpu-compositing --force-cpu-draw .",
         "test": "jest"
     },
     "version": "1.0.0",
     "webkit": {},
     "window": {
-        "frame": true,
+        "frame": false,
         "id": "tarkov-image-processor",
         "fullscreen": true,
         "resizable": true,
         "show": true,
         "show_in_taskbar": true,
         "title": "Tarkov Inventory Tracker",
-        "visible": true
+        "visible": true,
+        "transparent": true
     }
 }
