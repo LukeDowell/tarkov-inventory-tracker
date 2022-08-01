@@ -84,7 +84,7 @@ function rowToHelmet(rowElement: Element): Helmet & { iconUrl: string } | undefi
       name: sanitizeText($('a').attr('title')),
       material: sanitizeText($('td:nth-child(3)').text()) as ArmorMaterial,
       class: parseInt(sanitizeText($('td:nth-child(4)').text())) as ArmorClass,
-      areas: sanitizeText($('td:nth-child(5)').text()).replace(' ', '').split(',') as HelmetArea[],
+      areas: sanitizeText($('td:nth-child(5)').text()).replace(/ /, '').split(',') as HelmetArea[],
       durability: parseInt(sanitizeText($('td:nth-child(6)').text())),
       effectiveDurability: parseInt(sanitizeText($('td:nth-child(7)').text())),
       ricochetChance: sanitizeText($('td:nth-child(8)').text()) as RicochetChance,

@@ -292,3 +292,13 @@ just pass them to Crawler if I wish.
 Okay turns out it was nothing, seemingly randomly the web page uses `data-src` to hold the real URL. The scraper works!
 I think all helmets have been downloaded. Next up I'm going to write some helmet-scanning code to see if I can detect
 equipment changes. I'm guessing this will be pretty chunky and lead in to pulling out the `screenshot-desktop` code. 
+
+
+Started looking into the batch image processing this morning. I'm going to try and use GIMP, we will see how that goes.
+I found this during my initial cursory search: https://www.gimp.org/tutorials/Basic_Batch/
+
+I popped open the procedure browser in GIMP and there are 1275 different commands...oh boy. The script structure looks
+very Lisp-y to me as well, kind of interesting. Luckily, once I have this script, I will be able to commit it to the repo
+which I am oddly hung up about.
+
+More good news! Turns out you can just write in python and GIMP knows how to interpret that. More documentation [here](https://www.gimp.org/tutorials/Automate_Editing_in_GIMP/)

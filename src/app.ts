@@ -1,5 +1,4 @@
 import screenshot from 'screenshot-desktop'
-import cv from 'opencv-ts'
 import Jimp from 'jimp'
 
 let startTime = new Date().getTime();
