@@ -310,3 +310,30 @@ very Lisp-y to me as well, kind of interesting. Luckily, once I have this script
 which I am oddly hung up about.
 
 More good news! Turns out you can just write in python and GIMP knows how to interpret that. More documentation [here](https://www.gimp.org/tutorials/Automate_Editing_in_GIMP/)
+
+## 08/01/2022
+
+Tons of progress, but I have a true proof of concept now. I decided that I wanted some kind of nice way to visually debug
+what was going on. I also knew that I was going to need a UI of some kind for options and information display. I had read
+a little bit about [nwjs](https://nwjs.io/) but hadn't played with it yet, so I decided to give it a shot.
+
+All in all, it's worked pretty flawlessly out of the box. Basically you download their sdk, and run the included binary
+while passing the path to this repository as an argument. It does some spooky interpretive magic and behold, you have a 
+native app.
+
+I set my window to be fullscreen, transparent and frameless. Then I added a canvas element, hooked into the context and
+started drawing on the screen. I extracted some text for the "HEADWEAR" slot since I am pretty sure that I am going to need
+it later, and fired up my test...
+
+***
+
+![feature demonstration](./docs/first-proof-of-concept.gif)
+
+***
+
+Future note to self: example gifs with text as the background are a little confusing to look at. But it works! We can 
+see that the evaluation takes ~2 seconds on the right, and that is with a single image. I think next steps for me are to
+start actually applying some organization to the code while coming up with an interface I can test using some static images.
+
+A friend of mine drew my attention to `worker_threads` in node which provide true parallelism. I'll have to start running 
+some tests with that and see if we can squish this template matching code's execution time down a bit.  

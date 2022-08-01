@@ -45,6 +45,7 @@
         "show_in_taskbar": true,
         "title": "Tarkov Inventory Tracker",
         "visible": true,
-        "transparent": true
+        "transparent": true,
+        "always_on_top": true
     }
 }
