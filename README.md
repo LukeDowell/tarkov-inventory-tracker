@@ -344,3 +344,13 @@ Oof rough day, exciting stuff on the horizon though. I found a theoretically muc
 in-memory screenshots, and I also started on using worker_threads to parallelize the template matching. Lots of bugs to
 sort out, and unfortunately the worker_threads seem to only accept .js files, so I don't have any type assistance for 
 this work. 
+
+## 08/02/2022
+
+I've been getting into the problem of "okay, we have a screenshot, now how to check 100s of items on it at once?" and am
+starting to run into problems that I think may be alleviated by using a different platform. I started out using Node and 
+TypeScript because I know it and I wanted to try out nwjs; staring down the barrel of performance limitations for this problem
+space, setting up more front end tooling to reduce binary size and also getting it all working with opencv.js is reducing
+my appetite for grinding away at this problem.
+
+I'm going to try and set up some of this in python, which is something I'd classically advise against, but here we gooooo

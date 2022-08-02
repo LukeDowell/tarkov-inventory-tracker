@@ -1,6 +1,6 @@
 import Jimp from 'jimp'
 import cv from "opencv-ts";
-import {capturePrimaryMonitor, captureWindowByTitle} from "windows-ss";
+import {capturePrimaryMonitor} from "windows-ss";
 
 const canvas = <HTMLCanvasElement> document.getElementById('canvas')
 canvas.width = window.innerWidth
@@ -18,9 +18,11 @@ cv.onRuntimeInitialized = () => { // https://stackoverflow.com/questions/5667143
     const headwearTemplate = cv.matFromImageData(jimps[0].bitmap as any)
 
     window.setInterval(() => {
-      captureWindowByTitle("EscapeFromTarkov", {})
+      const startTime = new Date().getTime()
+      capturePrimaryMonitor({})
           .then((buf: Buffer) => Promise.resolve(Jimp.read(buf)))
           .then((image: Jimp) => {
+            console.log(`Parsed screenshot in ${new Date().getTime() - startTime} ms`)
             const screenshotMat = cv.matFromImageData(image.bitmap as any)
             const dst = new cv.Mat()
             const mask = new cv.Mat()
