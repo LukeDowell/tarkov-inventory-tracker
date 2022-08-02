@@ -337,3 +337,10 @@ start actually applying some organization to the code while coming up with an in
 
 A friend of mine drew my attention to `worker_threads` in node which provide true parallelism. I'll have to start running 
 some tests with that and see if we can squish this template matching code's execution time down a bit.  
+
+## 08/01/2022
+
+Oof rough day, exciting stuff on the horizon though. I found a theoretically much faster screenshot library that advertises ~50ms 
+in-memory screenshots, and I also started on using worker_threads to parallelize the template matching. Lots of bugs to
+sort out, and unfortunately the worker_threads seem to only accept .js files, so I don't have any type assistance for 
+this work. 

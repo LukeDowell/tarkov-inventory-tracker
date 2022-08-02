@@ -8,8 +8,7 @@ export type ArmorMaterial = "Combined materials" | "Aramid" | "Armor steel" | "U
 
 export type ArmorClass = 1 | 2 | 3 | 4 | 5 | 6
 
-export interface Helmet {
-  name: string,
+export interface Helmet extends Equipment {
   material: ArmorMaterial,
   class: ArmorClass,
   areas: HelmetArea[],
@@ -22,4 +21,8 @@ export interface Helmet {
   soundReductionPenalty: SoundReduction,
   blocksHeadset: boolean,
   weight: number
+}
+
+export interface Equipment {
+  name: string,
 }
