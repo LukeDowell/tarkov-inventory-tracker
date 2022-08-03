@@ -358,3 +358,50 @@ drag-and-drop to run. Very excitingly it gets ~30fps grabbing my entire screen a
 section. 
 
 ![python mss example](./docs/python-mss-example.gif)
+
+
+***
+
+Wow, the ecosystem for this kind of work in python is amazing. Just look at the kinds of stack overflow answers there 
+are:
+
+[![matplotlib nerdiness](./docs/matplotlib-nerdiness.png)](https://stackoverflow.com/questions/10540929/figure-of-imshow-is-too-small)
+
+I feel like I am just where I was with the Node setup but that I have far less code and "stuff" in my repository to get 
+an even better result. Better tool for the job I suppose. Running this:
+
+```python
+img = cv2.imread('../tests/res/stash-screenshot-gear.png', 0)
+img2 = img.copy()
+template = cv2.imread('../data/template/ui/headwear.png', 0)
+w, h = template.shape[::-1]
+
+methods = ['cv2.TM_CCOEFF', 'cv2.TM_CCOEFF_NORMED', 'cv2.TM_CCORR',
+           'cv2.TM_CCORR_NORMED', 'cv2.TM_SQDIFF', 'cv2.TM_SQDIFF_NORMED']
+
+for meth in methods:
+    img = img2.copy()
+    method = eval(meth)
+    # Apply template Matching
+    res = cv2.matchTemplate(img, template, method)
+    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+    # If the method is TM_SQDIFF or TM_SQDIFF_NORMED, take minimum
+    if method in [cv2.TM_SQDIFF, cv2.TM_SQDIFF_NORMED]:
+        top_left = min_loc
+    else:
+        top_left = max_loc
+    bottom_right = (top_left[0] + w, top_left[1] + h)
+    cv2.rectangle(img, top_left, bottom_right, (255, 255, 255), 4)
+    plt.figure(figsize=(20, 10), dpi=100)
+    plt.imshow(img)
+    plt.title('Detected Point'), plt.xticks([]), plt.yticks([])
+    plt.suptitle(meth)
+    plt.show()
+```
+
+nets me a picture like this:
+
+![open cv template match]()
+
+I think my next step is to recreate the fullscreen transparent window canvas, then on to actual equipment parsing! Python
+conversion day ends on a high note.
