@@ -1,11 +1,5 @@
 ## Tarkov Image Processor
 
-## Running
-
-1. Download sdk binary from [https://nwjs.io/](https://nwjs.io/)
-2. Unpack zip to `../sdk/nwjs`
-3. Use `npm run start-nw` or `npm run start-nw-powershell`
-
 ## Journal
 
 Pretty awful name, nice. The general idea of this app is to use OpenCV's template matching to parse screenshots of 
@@ -354,3 +348,13 @@ space, setting up more front end tooling to reduce binary size and also getting 
 my appetite for grinding away at this problem.
 
 I'm going to try and set up some of this in python, which is something I'd classically advise against, but here we gooooo
+
+
+Dang lots to learn here with the python ecosystem, a friend suggested I start with [Poetry](https://python-poetry.org/)
+and that has been a major help. I am not 100% sure about the way virtualenv works or how the dependencies are actually 
+managed, but [the IntelliJ Poetry Plugin](https://plugins.jetbrains.com/plugin/14307-poetry) seems to work perfectly.
+[Python MSS](https://python-mss.readthedocs.io/api.html) seems pretty promising, their opencv example was literally
+drag-and-drop to run. Very excitingly it gets ~30fps grabbing my entire screen and easily 60fps grabbing a 1000px square
+section. 
+
+![python mss example](./docs/python-mss-example.gif)
