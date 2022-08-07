@@ -10,7 +10,9 @@ mss = "^6.1.0"
 numpy = "^1.23.1"
 matplotlib = "^3.5.2"
 PyQt5 = "^5.15.7"
-opencv-contrib-python = "^4.6.0"
+pylint = "^2.14.5"
+opencv-python = "4.5.5.62"
+mypy = "^0.971"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"

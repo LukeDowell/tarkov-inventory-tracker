@@ -405,3 +405,38 @@ nets me a picture like this:
 
 I think my next step is to recreate the fullscreen transparent window canvas, then on to actual equipment parsing! Python
 conversion day ends on a high note.
+
+## 08/07/2022
+
+It has been quite the trial getting my environment all sorted out, particularly with things pertaining to `opencv-python`. 
+I had no autocomplete or module inspection of any kind, and absolutely could not sort it out. I thought, "Well, okay fine
+this is how the pioneers did it, reading literal books for reference". Unfortunately the opencv-python documentation is
+truly not great, especially for someone like myself who is desperate for type hints since I am so weak at python. 
+
+In the end I needed to disable the IntelliJ Poetry plugin downgrade my opencv-python version from 4.6.0 to 4.5.5. I am 
+still tinkering with all the tooling choices. I have `mypy`, `poetry` and `pylint`, I'd like clearer type hints but I
+am hoping idioms / common patterns start to expose themselves. 
+
+The lack of static typing is giving me the feeling of wandering in the dark a little bit; I have had an error opencv + mss
+that I've been slowing poking at while I get up to speed on syntax / tools. 
+
+`OpenCV: Error (-215) depth == CV_8U || depth == CV_16U|| depth == CV_32F in function cv:::cvtColor`
+
+The resultant fix for the code is contained in the following:
+
+```python
+template = cv2.imread('./data/template/ui/headwear.png', flags=cv2.IMREAD_GRAYSCALE)
+w, h = template.shape[::-1]
+
+with mss.mss() as sct:
+    # Part of the screen to capture
+    monitor = {"top": 0, "left": 0, "width": 3440, "height": 1440}
+    while "Screen capturing":
+        last_time = time.time()
+        capture = numpy.array(sct.grab(monitor), dtype="uint8")
+```
+
+I needed to provide the `flags` argument to `imread` and the `dtype` argument to `numpy.array`. My understanding is that 
+the colors ("depth", in the error) didn't match somehow for opencv. It's cool that the two libraries work together in this
+way, I just wish I had a better grasp on how to figure this out besides blindly guessing and piecing together stackoverflow 
+answers from long ago.
