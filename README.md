@@ -440,3 +440,51 @@ I needed to provide the `flags` argument to `imread` and the `dtype` argument to
 the colors ("depth", in the error) didn't match somehow for opencv. It's cool that the two libraries work together in this
 way, I just wish I had a better grasp on how to figure this out besides blindly guessing and piecing together stackoverflow 
 answers from long ago.
+
+I'm going to check out `tkinter` and figure out the fullscreen transparent window next.
+
+## 08/08/2022
+
+Tkinter is delightfully easy to use as well! I got a tracking rectangle drawing on my single template while I moved 
+the testing screenshot around. I'm running into an odd problem now though, perhaps one I am too fried to see the root cause 
+of. Here is my code:
+
+```python
+    while "Capturing Screen":
+        print('tick')
+        screen = screen_capture()
+        canvas.delete('all')
+        detected_objects = []
+        
+        for name, template in headwear_templates:
+            w, h = template.shape[::-1]
+            res = cv2.matchTemplate(screen, template, eval('cv2.TM_CCOEFF'))
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+            top_left = max_loc
+            bottom_right = (top_left[0] + w, top_left[1] + h)
+            print(max_val)
+            if max_val > 6_000_000:
+                print('Adding {name}'.format(name=name))
+                detected_objects.append((name, top_left, bottom_right))
+                
+        for o in detected_objects:
+            print('Found {name}'.format(name=o[0]))
+            top_left = o[1]
+            bottom_right = o[2]
+            canvas.create_text(top_left[0], top_left[1] - 16, text=o[0], fill="red", font='Helvetica 15 bold')
+            canvas.create_rectangle(top_left[0], top_left[1], bottom_right[0], bottom_right[1], fill='red')
+
+        canvas.pack(fill=tk.BOTH)
+        window.update()
+```
+
+The problem I am seeing is that I get "tick" to output several times a second, while the `print(max_val)` statement
+only executes once. I would expect to be iterating through the entirety of headwear_templates each time I loop through.
+I think this rubber duck just succeeded after writing that last sentence; perhaps `headwear_templates` is a kind of iterator
+and is "spent" after looping through it. Let's see...
+
+Ha! Yep, this fixed it: `headwear_templates = list(map(lambda f: (f.name, cv2.imread(f.as_posix(), flags=cv2.IMREAD_GRAYSCALE)), headwear_files))`
+
+Alright, seems like my template images are not very good. That's not surprising honestly, the quality of images pulled from the site 
+were very low quality. Tomorrow I am going to revist my scraper, and perhaps think about getting the images from a better
+location.
