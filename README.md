@@ -488,3 +488,16 @@ Ha! Yep, this fixed it: `headwear_templates = list(map(lambda f: (f.name, cv2.im
 Alright, seems like my template images are not very good. That's not surprising honestly, the quality of images pulled from the site 
 were very low quality. Tomorrow I am going to revist my scraper, and perhaps think about getting the images from a better
 location.
+
+![working perfectly](./docs/working-perfectly.gif)
+
+I found where Tarkov stores the cached icons: `{USER}\AppData\Local\Temp\Battlestate Games\EscapeFromTarkov\Icon Cache\live`
+They are numbered; I wonder if each item gets the same # each time the cache is rebuilt? If not, that would be a little unfortunate
+regarding any plans to not ship the app with these image files.
+
+RIP, they do not have a deterministic order. Not surprising though. Interestingly, I found that the font that they use 
+is called "Bender". It's completely free to use; I wonder how possible it would be to generate the template image by 
+rendering text? That is the only part of the image I want to try and matching on anyway, for now. If that doesn't work 
+then we can try matching on just the full image itself but I am worried about how long that might take; I still haven't
+had enough time with this new version to see if it is mostly the size of the source image or the collective size of 
+everything that matters more.

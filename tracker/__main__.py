@@ -4,9 +4,9 @@ import tkinter as tk
 import cv2
 
 script_path = Path(__file__).parent
-headwear_dir = (script_path / '../data/template/headwear').resolve()
-headwear_files = [t for t in headwear_dir.iterdir() if t.is_file() and t.name.endswith(".png")]
-headwear_templates = list(map(lambda f: (f.name, cv2.imread(f.as_posix(), flags=cv2.IMREAD_GRAYSCALE)), headwear_files))
+headwear_dir = (script_path / '../data/template/headwear/processed').resolve()
+headwear_files = [t for t in headwear_dir.iterdir() if t.is_file() and t.name.endswith("png")]
+headwear_templates = list(map(lambda f: (f.name, cv2.imread(f.as_posix(), flags=cv2.IMREAD_ANYDEPTH)), headwear_files))
 
 if __name__ == "__main__":
     window = tk.Tk()
@@ -27,7 +27,7 @@ if __name__ == "__main__":
         detected_objects = []
 
         for name, template in headwear_templates:
-            w, h = template.shape[::-1]
+            w, h, *d = template.shape[::-1]
             res = cv2.matchTemplate(screen, template, eval('cv2.TM_CCOEFF'))
             min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
             top_left = max_loc
@@ -41,8 +41,8 @@ if __name__ == "__main__":
             print('Found {name}'.format(name=o[0]))
             top_left = o[1]
             bottom_right = o[2]
-            canvas.create_text(top_left[0], top_left[1] - 16, text=o[0], fill="red", font='Helvetica 15 bold')
-            canvas.create_rectangle(top_left[0], top_left[1], bottom_right[0], bottom_right[1], fill='red')
+            canvas.create_text(top_left[0], top_left[1] - 16, text=o[0], fill="red", font='Helvetica 12 bold')
+            # canvas.create_rectangle(top_left[0], top_left[1], bottom_right[0], bottom_right[1], fill='red')
 
         canvas.pack(fill=tk.BOTH)
         window.update()
