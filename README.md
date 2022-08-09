@@ -450,32 +450,32 @@ the testing screenshot around. I'm running into an odd problem now though, perha
 of. Here is my code:
 
 ```python
-    while "Capturing Screen":
-        print('tick')
-        screen = screen_capture()
-        canvas.delete('all')
-        detected_objects = []
-        
-        for name, template in headwear_templates:
-            w, h = template.shape[::-1]
-            res = cv2.matchTemplate(screen, template, eval('cv2.TM_CCOEFF'))
-            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-            top_left = max_loc
-            bottom_right = (top_left[0] + w, top_left[1] + h)
-            print(max_val)
-            if max_val > 6_000_000:
-                print('Adding {name}'.format(name=name))
-                detected_objects.append((name, top_left, bottom_right))
-                
-        for o in detected_objects:
-            print('Found {name}'.format(name=o[0]))
-            top_left = o[1]
-            bottom_right = o[2]
-            canvas.create_text(top_left[0], top_left[1] - 16, text=o[0], fill="red", font='Helvetica 15 bold')
-            canvas.create_rectangle(top_left[0], top_left[1], bottom_right[0], bottom_right[1], fill='red')
+ while "Capturing Screen":
+     print('tick')
+     screen = screen_capture()
+     canvas.delete('all')
+     detected_objects = []
+     
+     for name, template in headwear_templates:
+         w, h = template.shape[::-1]
+         res = cv2.matchTemplate(screen, template, eval('cv2.TM_CCOEFF'))
+         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+         top_left = max_loc
+         bottom_right = (top_left[0] + w, top_left[1] + h)
+         print(max_val)
+         if max_val > 6_000_000:
+             print('Adding {name}'.format(name=name))
+             detected_objects.append((name, top_left, bottom_right))
+             
+     for o in detected_objects:
+         print('Found {name}'.format(name=o[0]))
+         top_left = o[1]
+         bottom_right = o[2]
+         canvas.create_text(top_left[0], top_left[1] - 16, text=o[0], fill="red", font='Helvetica 15 bold')
+         canvas.create_rectangle(top_left[0], top_left[1], bottom_right[0], bottom_right[1], fill='red')
 
-        canvas.pack(fill=tk.BOTH)
-        window.update()
+     canvas.pack(fill=tk.BOTH)
+     window.update()
 ```
 
 The problem I am seeing is that I get "tick" to output several times a second, while the `print(max_val)` statement
@@ -501,3 +501,54 @@ rendering text? That is the only part of the image I want to try and matching on
 then we can try matching on just the full image itself but I am worried about how long that might take; I still haven't
 had enough time with this new version to see if it is mostly the size of the source image or the collective size of 
 everything that matters more.
+
+Rendering the Bender font at size 20 and bold yields the following result on a screenshot of my 3440x1480 screen
+
+![font side by size](./docs/text-render-bold-example.png)
+
+Overlap:
+
+![font side by size](./docs/text-render-bold-example-overlap.png)
+
+
+-----
+
+Wooooo the text rendering is working very well for the "slot" text:
+
+![text rendering test](./docs/text-rendering-test.gif)
+
+Unfortunately less so for the item text, I am guessing I will just have to generate them differently. Here is the code
+for the slot text generation:
+
+```python
+ script_path = Path(__file__).parent
+ font_path = (script_path / '../data/Jovanny Lemonad - Bender-Bold.otf').resolve()
+ font = ImageFont.truetype(font_path.as_posix(), 20)
+
+ templates_to_generate = {
+     "HEADWEAR": "HEADWEAR",
+     "EARPIECE": "EARPIECE",
+     "EYEWEAR": "EYEWEAR",
+     "ON SLING": "ON SLING",
+     "ARMBAND": "ARMBAND",
+     "SHEATH": "SHEATH",
+     "HOLSTER": "HOLSTER",
+     "FACE COVER": "FACE COVER",
+ }
+
+ for n in templates_to_generate:
+     text = templates_to_generate[n]
+     font_img = Image.new('RGBA', (75, 22), (0, 0, 0, 0))
+     drawer = ImageDraw.Draw(font_img)
+     drawer.text((1, 1), text, fill=(210, 210, 210, 255), font=font, stroke_width=1, stroke_fill=(40, 40, 40, 255))
+     font_img.save((script_path / '../data/template/headwear/processed' / n).resolve().as_posix() + '.png')
+```
+
+Since the slot detection seems pretty accurate, perhaps the move now is going to be trying to parse equipment only inside
+some kind of "bounding box" defined by the slot positions, so basically only things inside a square whose top left corner 
+would be "EARPIECE" and whose bottom right corner would be "BACKPACK"
+
+I'm running into another issue, 'alpha' values on an image seem to muck the whole thing up a bit. I think since the equipment slot handling 
+is working so well I am just going to move forward with slicing up the main screenshot image and parsing only the area
+"around" the slot. Perhaps alpha can be made to work as I'd like, there is a 'mask' parameter to matchTemplate that
+seems to be [related](https://github.com/opencv/opencv/pull/3554)

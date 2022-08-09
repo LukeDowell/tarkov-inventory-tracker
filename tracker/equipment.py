@@ -4,13 +4,6 @@ import mss
 import numpy
 
 
-def screen_capture() -> numpy.ndarray:
-    with mss.mss() as sct:
-        monitor = {"top": 0, "left": 0, "width": 3440, "height": 1440}
-        capture = numpy.array(sct.grab(monitor), dtype="uint8")
-        return cv2.cvtColor(capture, cv2.COLOR_RGB2GRAY)
-
-
 def find_equipment_in_image(img, template) -> (int, int, int):
     """
     Parses equipment out of an image
