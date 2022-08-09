@@ -552,3 +552,12 @@ I'm running into another issue, 'alpha' values on an image seem to muck the whol
 is working so well I am just going to move forward with slicing up the main screenshot image and parsing only the area
 "around" the slot. Perhaps alpha can be made to work as I'd like, there is a 'mask' parameter to matchTemplate that
 seems to be [related](https://github.com/opencv/opencv/pull/3554)
+
+
+I'm getting a ways into scanning each of the UI slots separately and am wanting to write down my strategy:
+
+   * Scan left half of the user's screen to detect UI elements on the equipment screen
+   * Slice up smaller sections of the screen to scan for relevant pieces of equipment 
+     * ex. Create a box near the "HELMET" ui template location, and only scan that box for each helmet item
+   * To smooth out 'jitteryness' maybe we store our results in a sliding window that we query instead, ie. only show
+     helmet information if we have seen the same helmet in 90% of our last X screenshots
