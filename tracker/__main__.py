@@ -59,7 +59,7 @@ if __name__ == "__main__":
         detected_slots = {}
 
         for name, template in ui_templates:
-            slot_scan_size = (500, 50)
+            slot_scan_size = (250, 50)
             min_val, max_val, min_loc, max_loc = template_match(screen, template)
             top_left = max_loc
             bottom_right = (top_left[0] + slot_scan_size[0], top_left[1] + slot_scan_size[1])
@@ -74,7 +74,8 @@ if __name__ == "__main__":
             raw_matches.sort(key=lambda m: m[1][1], reverse=True)
             maybe_match = next(iter(raw_matches), '')
             if not maybe_match == '':
-                cv2.imshow('Match', equipment_templates[slot][maybe_match[0]])
+                cv2.imshow('Template', equipment_templates[slot][maybe_match[0]])
+                cv2.imshow('Src', slot_cropped_img)
                 print(maybe_match)
 
         for d in debug_text:

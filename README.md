@@ -561,3 +561,11 @@ I'm getting a ways into scanning each of the UI slots separately and am wanting 
      * ex. Create a box near the "HELMET" ui template location, and only scan that box for each helmet item
    * To smooth out 'jitteryness' maybe we store our results in a sliding window that we query instead, ie. only show
      helmet information if we have seen the same helmet in 90% of our last X screenshots
+
+Sectioned scanning done; Idea to improve slot-based scanning is to take a picture of the background for each slot and write
+the actual text on top of that so that we cover weird little things like this:
+
+![weird background](./docs/weird-background.png)
+
+Just ran a live test and the results are mixed. Some helmets work perfectly, others get confused. The "Bomber" and the "TK FAST MT"
+are popular false-positives. How to improve results? 

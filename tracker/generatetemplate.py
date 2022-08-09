@@ -4,23 +4,26 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
 script_path = Path(__file__).parent
+font_normal_path = (script_path / '../data/Jovanny Lemonad - Bender-Bold.otf').resolve()
 font_bold_path = (script_path / '../data/Jovanny Lemonad - Bender-Bold.otf').resolve()
 item_json_path = (script_path / '../data/items.json').resolve()
-item_font = ImageFont.truetype(font_bold_path.as_posix(), 17)
+item_size = 17
+item_font = ImageFont.truetype(font_bold_path.as_posix(), item_size)
+ui_size = 20
 ui_font = ImageFont.truetype(font_bold_path.as_posix(), 20)
 
 
 def to_item_template(n: str) -> Image:
     temp_w = int(item_font.getlength(n)) + 2
-    temp_img = Image.new('RGBA', (temp_w, 17), (0, 0, 0, 0))
+    temp_img = Image.new('RGB', (temp_w, item_size), (83, 92, 83))
     ImageDraw.Draw(temp_img).text((1, -1), n, fill=(211, 220, 220), font=item_font, stroke_width=1,
-                                  stroke_fill=(0, 0, 0))
+                                  stroke_fill=(35, 35, 30))
     return temp_img
 
 
 def to_ui_template(n: str) -> Image:
     temp_w = int(ui_font.getlength(n)) + 2
-    temp_img = Image.new('RGB', (temp_w, 20), (40, 40, 40))
+    temp_img = Image.new('RGB', (temp_w, ui_size), (40, 40, 40))
     ImageDraw.Draw(temp_img).text((1, -1), n, fill=(211, 220, 220), font=ui_font, stroke_fill=(0, 0, 0))
     return temp_img
 
