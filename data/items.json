@@ -1,6 +1,631 @@
 {
-  "6b47": {
-    "slot": "HELMET",
-    "price": ""
+  "HEADWEAR": {
+    "Bomber": {
+      "name": "Bomber beanie",
+      "material": "Aramid",
+      "class": 1,
+      "areas": [
+        "Top"
+      ],
+      "durability": 150,
+      "effectiveDurability": 600,
+      "ricochetChance": "None",
+      "movementSpeedPenalty": 0,
+      "turningSpeedPenalty": 0,
+      "ergonomicsPenalty": 0,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 0.1,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b0/BomberBeanie_icon.png/revision/latest?cb=20211207021634"
+    },
+    "TK FAST MT": {
+      "name": "Tac-Kek FAST MT helmet (replica)",
+      "material": "Combined materials",
+      "class": 1,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 40,
+      "effectiveDurability": 80,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": 0,
+      "turningSpeedPenalty": 0,
+      "ergonomicsPenalty": -1,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 0.45,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c0/TK_FAST_Icon.png/revision/latest?cb=20220122162512"
+    },
+    "Tank helmet": {
+      "name": "TSh-4M-L soft tank crew helmet",
+      "material": "Aramid",
+      "class": 1,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 100,
+      "effectiveDurability": 400,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": 0,
+      "turningSpeedPenalty": 0,
+      "ergonomicsPenalty": 0,
+      "soundReductionPenalty": "Low",
+      "blocksHeadset": true,
+      "weight": 0.9,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/20/TankHelm2.png/revision/latest?cb=20191229160330"
+    },
+    "K-1S": {
+      "name": "Kolpak-1S riot helmet",
+      "material": "Aramid",
+      "class": 2,
+      "areas": [
+        "Top"
+      ],
+      "durability": 25,
+      "effectiveDurability": 100,
+      "ricochetChance": "Low",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -10,
+      "ergonomicsPenalty": -8,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 1.9,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/c3/Kolpak-1S_Icon.png/revision/latest?cb=20220408084632"
+    },
+    "SHPM": {
+      "name": "ShPM Firefighter helmet",
+      "material": "Aramid",
+      "class": 2,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 40,
+      "effectiveDurability": 160,
+      "ricochetChance": "Low",
+      "movementSpeedPenalty": 0,
+      "turningSpeedPenalty": -12,
+      "ergonomicsPenalty": -10,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 1.5,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/3b/SHPM_Firefighter%27s_helmet_icon.png/revision/latest?cb=20190110180222"
+    },
+    "Djeta": {
+      "name": "PSh-97 DJETA riot helmet",
+      "material": "Aramid",
+      "class": 2,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 65,
+      "effectiveDurability": 260,
+      "ricochetChance": "Low",
+      "movementSpeedPenalty": 0,
+      "turningSpeedPenalty": -13,
+      "ergonomicsPenalty": -14,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 1.3,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/ba/PSH-97_-Jeta-_helmet_Icon.png/revision/latest?cb=20190110174515"
+    },
+    "Pumpkin": {
+      "name": "Jack-o-lantern tactical pumpkin helmet",
+      "material": "UHMWPE",
+      "class": 2,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears",
+        " Eyes",
+        " Jaws"
+      ],
+      "durability": 40,
+      "effectiveDurability": 89,
+      "ricochetChance": "None",
+      "movementSpeedPenalty": -3,
+      "turningSpeedPenalty": -5,
+      "ergonomicsPenalty": 0,
+      "soundReductionPenalty": "Low",
+      "blocksHeadset": true,
+      "weight": 1.2,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/eb/PumpkinHelmetIcon.png/revision/latest?cb=20181025203601"
+    },
+    "LShZ": {
+      "name": "LShZ light helmet",
+      "material": "Aramid",
+      "class": 3,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 30,
+      "effectiveDurability": 120,
+      "ricochetChance": "Medium",
+      "movementSpeedPenalty": -1,
+      "turningSpeedPenalty": -7,
+      "ergonomicsPenalty": -5,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 0.95,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/68/LZSh_light_helmet_icon.png/revision/latest?cb=20220122162314"
+    },
+    "SSh-68": {
+      "name": "SSh-68 steel helmet",
+      "material": "Armor steel",
+      "class": 3,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 30,
+      "effectiveDurability": 43,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -8,
+      "ergonomicsPenalty": -13,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 1.5,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/a/aa/SSH-68Icon.png/revision/latest?cb=20181226233101"
+    },
+    "HJELM": {
+      "name": "NFM HJELM helmet",
+      "material": "Combined materials",
+      "class": 3,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 65,
+      "effectiveDurability": 130,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": 0,
+      "turningSpeedPenalty": -2,
+      "ergonomicsPenalty": 0,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 0.8,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/9e/NFM_HJELM_helmet_Icon.png/revision/latest?cb=20211229085639"
+    },
+    "UNTAR": {
+      "name": "UNTAR helmet",
+      "material": "Aramid",
+      "class": 3,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 25,
+      "effectiveDurability": 100,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -10,
+      "ergonomicsPenalty": -2,
+      "soundReductionPenalty": "Low",
+      "blocksHeadset": false,
+      "weight": 2.2,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e3/UNTARHelmetIcon.png/revision/latest?cb=20190112203847"
+    },
+    "6B47": {
+      "name": "6B47 Ratnik-BSh helmet",
+      "material": "Aluminium",
+      "class": 3,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 25,
+      "effectiveDurability": 42,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -1,
+      "turningSpeedPenalty": -5,
+      "ergonomicsPenalty": -7,
+      "soundReductionPenalty": "Low",
+      "blocksHeadset": false,
+      "weight": 1.3,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1e/6B47_Icon.gif/revision/latest?cb=20180806190854"
+    },
+    "Kiver-M": {
+      "name": "FORT Kiver-M bulletproof helmet",
+      "material": "UHMWPE",
+      "class": 3,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 35,
+      "effectiveDurability": 78,
+      "ricochetChance": "Medium",
+      "movementSpeedPenalty": -3,
+      "turningSpeedPenalty": -5,
+      "ergonomicsPenalty": -1,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 1.2,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/1/1c/Kiver-M_Helmet_icon.png/revision/latest?cb=20191227210553"
+    },
+    "SFERA": {
+      "name": "SSSh-94 SFERA-S helmet",
+      "material": "Armor steel",
+      "class": 3,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 100,
+      "effectiveDurability": 143,
+      "ricochetChance": "Medium",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -8,
+      "ergonomicsPenalty": -8,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 3.5,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/b0/SFERAHelmetIcon.png/revision/latest?cb=20190119182649"
+    },
+    "Ronin": {
+      "name": "DevTac Ronin ballistic helmet",
+      "material": "Aramid",
+      "class": 3,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears",
+        " Eyes",
+        " Jaws"
+      ],
+      "durability": 60,
+      "effectiveDurability": 240,
+      "ricochetChance": "None",
+      "movementSpeedPenalty": -5,
+      "turningSpeedPenalty": -10,
+      "ergonomicsPenalty": -5,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 1.6,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/9/97/DEVTAC_Ronin_ballistic_helmet_Icon.png/revision/latest?cb=20220120231148"
+    },
+    "TC-2001": {
+      "name": "MSA ACH TC-2001 MICH Series helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 25,
+      "effectiveDurability": 50,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -8,
+      "ergonomicsPenalty": -7,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 1.4,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/c/cb/MICH_Icon.PNG/revision/latest?cb=20191213025908"
+    },
+    "TC-2002": {
+      "name": "MSA ACH TC-2002 MICH Series helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 27,
+      "effectiveDurability": 54,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -8,
+      "ergonomicsPenalty": -7,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 1.45,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/83/MICH_Icon_2002.PNG/revision/latest?cb=20210124003917"
+    },
+    "ACHHC": {
+      "name": "HighCom Striker ACHHC IIIA helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 30,
+      "effectiveDurability": 60,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -7,
+      "ergonomicsPenalty": -8,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 1.5,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e1/ACHHC_Icon.gif/revision/latest?cb=20211229084315"
+    },
+    "TC 800": {
+      "name": "MSA Gallet TC 800 High Cut combat helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 30,
+      "effectiveDurability": 60,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -8,
+      "ergonomicsPenalty": -6,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 1.17,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/6/67/MSA_TC_800_Icon.png/revision/latest?cb=20200314230815"
+    },
+    "Bastion": {
+      "name": "Diamond Age Bastion helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 40,
+      "effectiveDurability": 80,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -1,
+      "turningSpeedPenalty": -7,
+      "ergonomicsPenalty": -2,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 0.96,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/5c/Bastion_Icon.png/revision/latest?cb=20200606092904"
+    },
+    "Fast MT": {
+      "name": "Ops-Core FAST MT Super High Cut helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 40,
+      "effectiveDurability": 80,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -1,
+      "turningSpeedPenalty": -7,
+      "ergonomicsPenalty": 0,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 0.9,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/ed/FASTMT_Icon.gif/revision/latest?cb=20180805220154"
+    },
+    "Airframe Tan": {
+      "name": "Crye Precision AirFrame helmet (Tan)",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 40,
+      "effectiveDurability": 80,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": 0,
+      "turningSpeedPenalty": -3,
+      "ergonomicsPenalty": -3,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 0.88,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e1/Crye_Precision_Airframe_Tan_Icon.png/revision/latest?cb=20190102011853"
+    },
+    "EXFIL": {
+      "name": "Team Wendy EXFIL Ballistic Helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 45,
+      "effectiveDurability": 90,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -1,
+      "turningSpeedPenalty": -6,
+      "ergonomicsPenalty": -6,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 1.18,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/8/89/Team_Wendy_EXFIL_Ballistic_Helmet_icon.gif/revision/latest?cb=20191229154600"
+    },
+    "Caiman": {
+      "name": "Galvion Caiman Hybrid helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape"
+      ],
+      "durability": 50,
+      "effectiveDurability": 100,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -8,
+      "ergonomicsPenalty": -7,
+      "soundReductionPenalty": "None",
+      "blocksHeadset": false,
+      "weight": 1.12,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/f/ff/Caiman_icon.png/revision/latest?cb=20201019155531"
+    },
+    "ZSh-1-2M": {
+      "name": "ZSh-1-2M helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 35,
+      "effectiveDurability": 70,
+      "ricochetChance": "Medium",
+      "movementSpeedPenalty": -3,
+      "turningSpeedPenalty": -8,
+      "ergonomicsPenalty": -2,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 3.7,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/0d/ZSH-1-2M_Icon.gif/revision/latest?cb=20180809202110"
+    },
+    "ULACH": {
+      "name": "HighCom Striker ULACH IIIA helmet",
+      "material": "UHMWPE",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 38,
+      "effectiveDurability": 84,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -2,
+      "turningSpeedPenalty": -10,
+      "ergonomicsPenalty": -7,
+      "soundReductionPenalty": "Low",
+      "blocksHeadset": false,
+      "weight": 1.9,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/b/bb/ULACH_Icon.gif/revision/latest?cb=20211229084723"
+    },
+    "LSHZ-2DTM": {
+      "name": "BNTI LShZ-2DTM helmet",
+      "material": "Combined materials",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 55,
+      "effectiveDurability": 110,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -3,
+      "turningSpeedPenalty": -15,
+      "ergonomicsPenalty": -10,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 3.4,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/5/50/LZHZ-2DTMIcon.png/revision/latest?cb=20191030044453"
+    },
+    "Maska 1Sch": {
+      "name": "Maska-1SCh bulletproof helmet",
+      "material": "Armor steel",
+      "class": 4,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 60,
+      "effectiveDurability": 86,
+      "ricochetChance": "Medium",
+      "movementSpeedPenalty": -3,
+      "turningSpeedPenalty": -6,
+      "ergonomicsPenalty": -16,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 2.6,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/0/02/Maska_1Sch_helmet_icon.gif/revision/latest?cb=20190101110609"
+    },
+    "Altyn": {
+      "name": "Altyn bulletproof helmet",
+      "material": "Armor steel",
+      "class": 5,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 45,
+      "effectiveDurability": 64,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -7,
+      "turningSpeedPenalty": -17,
+      "ergonomicsPenalty": -15,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 4,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/2/2d/AltynHelmetIcon.png/revision/latest?cb=20180517203714"
+    },
+    "Rys-T": {
+      "name": "Rys-T bulletproof helmet",
+      "material": "Titan",
+      "class": 5,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 50,
+      "effectiveDurability": 91,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -3,
+      "turningSpeedPenalty": -8,
+      "ergonomicsPenalty": -12,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 4.5,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/e/e2/RystIcon.png/revision/latest?cb=20201020092927"
+    },
+    "Vulkan-5": {
+      "name": "Vulkan-5 (LShZ-5) bulletproof helmet",
+      "material": "Combined materials",
+      "class": 6,
+      "areas": [
+        "Top",
+        "Nape",
+        " Ears"
+      ],
+      "durability": 55,
+      "effectiveDurability": 110,
+      "ricochetChance": "High",
+      "movementSpeedPenalty": -7,
+      "turningSpeedPenalty": -33,
+      "ergonomicsPenalty": -24,
+      "soundReductionPenalty": "High",
+      "blocksHeadset": true,
+      "weight": 4.5,
+      "iconUrl": "https://static.wikia.nocookie.net/escapefromtarkov_gamepedia/images/3/30/Vulkan-5_%28LShZ-5%29_heavy_helmet_icon.png/revision/latest?cb=20190411084254"
+    }
+  },
+  "EARPIECE": {
+  },
+  "EYEWEAR": {
+  },
+  "ON SLING": {
+  },
+  "ON BACK": {
+  },
+  "ARMBAND": {
+  },
+  "SHEATH": {
+  },
+  "HOLSTER": {
+  },
+  "FACE COVER": {
+  },
+  "TACTICAL RIG": {
+  },
+  "BACKPACK": {
   }
 }
