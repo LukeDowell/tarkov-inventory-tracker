@@ -1,7 +1,4 @@
-from pathlib import Path
 import cv2
-import mss
-import numpy
 
 
 def find_equipment_in_image(img, template) -> (int, int, int):

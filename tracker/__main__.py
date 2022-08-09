@@ -26,15 +26,6 @@ def template_match(img, temp):
 
 
 if __name__ == "__main__":
-    # img = cv2.imread("../tests/stash-screenshot-gear.png")
-    # y = 200
-    # x = 200
-    # h = 400
-    # w = 400
-    # crop_img = img[y:y+h, x:x+w].copy()
-    # cv2.imshow("cropped", crop_img)
-    # cv2.waitKey(0)
-
     window = tk.Tk()
     canvas = tk.Canvas(window, bg="white", width=3440, height=1400)
     label = tk.Label(window, bg="white")
@@ -49,26 +40,50 @@ if __name__ == "__main__":
         data = json.load(item_json_file)
 
     ui_files = [t for t in (temp_dir / 'UI').iterdir() if t.is_file() and t.name.endswith("png")]
-    ui_templates = list(map(lambda f: (f.name, cv2.imread(f.as_posix(), flags=cv2.IMREAD_GRAYSCALE)), ui_files))
+    ui_templates = list(
+        map(lambda f: (f.name.replace('.png', ''), cv2.imread(f.as_posix(), flags=cv2.IMREAD_GRAYSCALE)), ui_files))
+    equipment_templates: dict[str, dict] = {}
+
+    for ui_name, _ in ui_templates:
+        equipment_files = [t for t in (temp_dir / ui_name).iterdir() if t.is_file() and t.name.endswith("png")]
+        templates_list = list(
+            map(lambda f: (f.name.replace('.png', ''), cv2.imread(f.as_posix(), flags=cv2.IMREAD_GRAYSCALE)),
+                equipment_files))
+        equipment_templates[ui_name] = dict((name, temp) for name, temp in templates_list)
 
     while "Capturing Screen":
         screen = screen_capture()
         canvas.delete('all')
-        detected_objects = []
+        debug_text = []
+        debug_rect = []
+        detected_slots = {}
 
         for name, template in ui_templates:
-            w, h, *d = template.shape[::-1]
+            slot_scan_size = (500, 50)
             min_val, max_val, min_loc, max_loc = template_match(screen, template)
             top_left = max_loc
-            bottom_right = (top_left[0] + w, top_left[1] + h)
+            bottom_right = (top_left[0] + slot_scan_size[0], top_left[1] + slot_scan_size[1])
             if max_val > 5_500_000:
-                detected_objects.append((name, top_left, bottom_right))
+                # debug_text.append((name, top_left[0] - 15, top_left[1] - 20))
+                detected_slots[name] = (top_left, bottom_right)
 
-        for o in detected_objects:
-            top_left = o[1]
-            bottom_right = o[2]
-            canvas.create_text(top_left[0] + 50, top_left[1] - 15, text=o[0], fill="red", font='Helvetica 12 bold')
-            canvas.create_rectangle(top_left[0], top_left[1], bottom_right[0], bottom_right[1])
+        for slot, (tl, br) in detected_slots.items():
+            # debug_rect.append((tl, br))
+            slot_cropped_img = screen[tl[1]:br[1], tl[0]:br[0]].copy()
+            raw_matches = list(map(lambda et: (et[0], template_match(slot_cropped_img, et[1])), equipment_templates[slot].items()))
+            raw_matches.sort(key=lambda m: m[1][1], reverse=True)
+            maybe_match = next(iter(raw_matches), '')
+            if not maybe_match == '':
+                cv2.imshow('Match', equipment_templates[slot][maybe_match[0]])
+                print(maybe_match)
+
+        for d in debug_text:
+            t, x, y = d
+            canvas.create_text(x, y, text=t, fill="red", font='Helvetica 12 bold')
+
+        for d in debug_rect:
+            tl, br = d
+            canvas.create_rectangle(tl[0], tl[1], br[0], br[1], outline='yellow', width=1)
 
         canvas.pack(fill=tk.BOTH)
         window.update()
