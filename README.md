@@ -569,3 +569,10 @@ the actual text on top of that so that we cover weird little things like this:
 
 Just ran a live test and the results are mixed. Some helmets work perfectly, others get confused. The "Bomber" and the "TK FAST MT"
 are popular false-positives. How to improve results? 
+
+## 08/09/2022
+
+I extracted a ton of code from `__main__.py` and put it into some more reusable chunks. I wrote my first actual test using
+those chunks, and it's passing! I think the item detection is still kind of whack so I am going to try something weird; I'm
+going to write a big test to see what settings work best for the template. I'd like to figure out the masking since I suspect
+that may help a ton, but then I would like to write a test to see what settings give me the best results. 

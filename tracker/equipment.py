@@ -1,16 +1,14 @@
-import cv2
+from dataclasses import dataclass
+from typing import Literal, Set
+
+Slot = Literal['ARMBAND', 'BACKPACK', 'BODY ARMOR', 'EARPIECE', 'EYEWEAR', 'FACE COVER', 'HEADWEAR', 'HOLSTER',
+               'ON BACK', 'ON SLING', 'SHEATH', 'TACTICAL RIG']
+
+ALL_SLOTS: Set[Slot] = {'ARMBAND', 'BACKPACK', 'BODY ARMOR', 'EARPIECE', 'EYEWEAR', 'FACE COVER', 'HEADWEAR', 'HOLSTER',
+                        'ON BACK', 'ON SLING', 'SHEATH', 'TACTICAL RIG'}
 
 
-def find_equipment_in_image(img, template) -> (int, int, int):
-    """
-    Parses equipment out of an image
-    :param img:
-    :param template:
-    :return:
-    """
-    w, h = template.shape[::-1]
-    res = cv2.matchTemplate(img, template, eval('cv2.TM_CCOEFF'))
-    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
-    top_left = max_loc
-    bottom_right = (top_left[0] + w, top_left[1] + h)
-    return max_val, top_left, bottom_right
+@dataclass
+class Equipment:
+    name: str
+    slot: Slot
