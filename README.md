@@ -576,3 +576,25 @@ I extracted a ton of code from `__main__.py` and put it into some more reusable 
 those chunks, and it's passing! I think the item detection is still kind of whack so I am going to try something weird; I'm
 going to write a big test to see what settings work best for the template. I'd like to figure out the masking since I suspect
 that may help a ton, but then I would like to write a test to see what settings give me the best results. 
+
+
+Something I am not enjoying about my current python style so far is code like this:
+
+```python
+def find_equipment_for_slot(slot: Slot, src: numpy.array, threshold: int = 2_000_000) -> Optional[Equipment]:
+    item_results = list(map(lambda t: (t[0], template_match(src, t[1])), SLOT_TEMPLATES[slot].item_templates))
+    # likely_results = list(filter(lambda t: t[1][1] > threshold, item_results))
+    item_results.sort(key=lambda t: t[1][1], reverse=True)
+```
+
+I wish there was a more readable way to use tuples + lambdas. I'd like to destructure the tuple and use named arguments
+but that throws an error. The type checking built-in to IntelliJ doesn't seem to be very good when working with tuples 
+like this either; I have type hints for `item_templates` but am still able to do whatever I want in those tuples with
+no error highlighting.
+
+
+Alright first pass of mask-usage is done, unfortunately it is not quite working much better. My mind is starting
+to go towards some other pre-processing steps; if letters are really just a collection of oddly
+joined edges, maybe we can do some edge-analysis on the screen + template before trying to match? Perhaps the color
+difference just isn't different enough since all the letters take a similar amount of area, and they all have 
+the same colors.

@@ -17,8 +17,10 @@ item_json_path = (script_path / '../data/items.json').resolve()
 
 def slot_to_item_templates(n: Slot) -> list[(str, numpy.array)]:
     equipment_files = [t for t in (temp_dir / n).iterdir() if t.is_file() and t.name.endswith("png")]
-    return list(map(lambda f: (f.name.replace('.png', ''), cv2.imread(f.as_posix(), flags=cv2.IMREAD_GRAYSCALE)),
-                    equipment_files))
+    # return list(map(lambda f: (f.name.replace('.png', ''), cv2.imread(f.as_posix(), flags=cv2.IMREAD_GRAYSCALE)),
+    #                 equipment_files))
+    return list(
+        map(lambda f: (f.name.replace('.png', ''), to_item_template(f.name.replace('.png', ''))), equipment_files))
 
 
 item_size = 17
@@ -29,13 +31,13 @@ ui_font = ImageFont.truetype(font_bold_path.as_posix(), 20)
 
 def to_item_template(n: str, *args) -> Image:
     temp_w = int(item_font.getlength(n)) + 2
-    temp_img = Image.new('RGB', (temp_w, item_size), (83, 92, 83))
+    temp_img = Image.new('RGB', (temp_w, item_size), (0, 0, 0))
     if len(args) == 0:
         ImageDraw.Draw(temp_img).text((1, -1), n, fill=(211, 220, 220), font=item_font, stroke_width=1,
                                       stroke_fill=(35, 35, 30))
     else:
         ImageDraw.Draw(temp_img).text((1, -1), n, font=item_font, *args)
-    return temp_img
+    return cv2.cvtColor(numpy.array(temp_img), cv2.COLOR_RGB2GRAY)
 
 
 def to_ui_template(n: str) -> numpy.array:

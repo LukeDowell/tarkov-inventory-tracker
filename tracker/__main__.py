@@ -6,6 +6,10 @@ import cv2
 import mss
 import numpy
 
+from equipment import Slot
+from matching import get_slot_image, find_equipment_for_slot, EquipmentMatch
+from template import SLOT_TEMPLATES
+
 script_path = Path(__file__).parent
 item_json_path = (script_path / '../data/items.json').resolve()
 temp_dir = (script_path / '../data/template').resolve()
@@ -39,18 +43,6 @@ if __name__ == "__main__":
     with open(item_json_path) as item_json_file:
         data = json.load(item_json_file)
 
-    ui_files = [t for t in (temp_dir / 'UI').iterdir() if t.is_file() and t.name.endswith("png")]
-    ui_templates = list(
-        map(lambda f: (f.name.replace('.png', ''), cv2.imread(f.as_posix(), flags=cv2.IMREAD_GRAYSCALE)), ui_files))
-    equipment_templates: dict[str, dict] = {}
-
-    for ui_name, _ in ui_templates:
-        equipment_files = [t for t in (temp_dir / ui_name).iterdir() if t.is_file() and t.name.endswith("png")]
-        templates_list = list(
-            map(lambda f: (f.name.replace('.png', ''), cv2.imread(f.as_posix(), flags=cv2.IMREAD_GRAYSCALE)),
-                equipment_files))
-        equipment_templates[ui_name] = dict((name, temp) for name, temp in templates_list)
-
     while "Capturing Screen":
         screen = screen_capture()
         canvas.delete('all')
@@ -58,25 +50,13 @@ if __name__ == "__main__":
         debug_rect = []
         detected_slots = {}
 
-        for name, template in ui_templates:
-            slot_scan_size = (250, 50)
-            min_val, max_val, min_loc, max_loc = template_match(screen, template)
-            top_left = max_loc
-            bottom_right = (top_left[0] + slot_scan_size[0], top_left[1] + slot_scan_size[1])
-            if max_val > 5_500_000:
-                # debug_text.append((name, top_left[0] - 15, top_left[1] - 20))
-                detected_slots[name] = (top_left, bottom_right)
+        slot_to_cropped_img = map(lambda s: (s, get_slot_image(s, screen)), SLOT_TEMPLATES.keys())
+        slot_to_item_results = map(lambda s: (s[0], find_equipment_for_slot(s[0], s[1])), slot_to_cropped_img)
+        slot_to_worn_item: dict[Slot, EquipmentMatch] = dict((n, r) for n, r in slot_to_item_results)
 
-        for slot, (tl, br) in detected_slots.items():
-            # debug_rect.append((tl, br))
-            slot_cropped_img = screen[tl[1]:br[1], tl[0]:br[0]].copy()
-            raw_matches = list(map(lambda et: (et[0], template_match(slot_cropped_img, et[1])), equipment_templates[slot].items()))
-            raw_matches.sort(key=lambda m: m[1][1], reverse=True)
-            maybe_match = next(iter(raw_matches), '')
-            if not maybe_match == '':
-                cv2.imshow('Template', equipment_templates[slot][maybe_match[0]])
-                cv2.imshow('Src', slot_cropped_img)
-                print(maybe_match)
+        headwear = slot_to_worn_item['HEADWEAR']
+        print(
+            'Wearing {item} with confidence of {conf} in HEADWEAR'.format(item=headwear.name, conf=headwear.result[1]))
 
         for d in debug_text:
             t, x, y = d
