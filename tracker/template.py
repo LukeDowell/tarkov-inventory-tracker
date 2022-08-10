@@ -56,6 +56,7 @@ class SlotTemplate:
 SLOT_TEMPLATES: dict[Slot, SlotTemplate] = dict(
     (s, SlotTemplate(t, i)) for s, t, i in map(lambda s: (s, to_ui_template(s), slot_to_item_templates(s)), ALL_SLOTS))
 
+
 if __name__ == '__main__':
     ui_dir = (script_path / '../data/template/UI')
     if not ui_dir.exists() or not ui_dir.is_dir():

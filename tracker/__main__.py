@@ -22,12 +22,7 @@ def screen_capture() -> numpy.ndarray:
         monitor = {"top": 0, "left": 0, "width": int(sct.monitors[1]['width'] / 2), "height": 1440}
         capture = numpy.array(sct.grab(monitor), dtype="uint8")
         return cv2.cvtColor(capture, cv2.COLOR_RGB2GRAY)
-
-
-def template_match(img, temp):
-    res = cv2.matchTemplate(img, temp, eval('cv2.TM_CCOEFF'))
-    return cv2.minMaxLoc(res)
-
+    
 
 if __name__ == "__main__":
     window = tk.Tk()
