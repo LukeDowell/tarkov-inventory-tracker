@@ -22,7 +22,7 @@ def screen_capture() -> numpy.ndarray:
         monitor = {"top": 0, "left": 0, "width": int(sct.monitors[1]['width'] / 2), "height": 1440}
         capture = numpy.array(sct.grab(monitor), dtype="uint8")
         return cv2.cvtColor(capture, cv2.COLOR_RGB2GRAY)
-    
+
 
 if __name__ == "__main__":
     window = tk.Tk()
@@ -46,7 +46,9 @@ if __name__ == "__main__":
         detected_slots = {}
 
         slot_to_cropped_img = map(lambda s: (s, get_slot_image(s, screen)), SLOT_TEMPLATES.keys())
-        slot_to_item_results = map(lambda s: (s[0], find_equipment_for_slot(s[0], s[1])), slot_to_cropped_img)
+        slot_to_item_results = map(
+            lambda s: (s[0], find_equipment_for_slot(s[0], s[1], SLOT_TEMPLATES[s[0]].item_templates)),
+            slot_to_cropped_img)
         slot_to_worn_item: dict[Slot, EquipmentMatch] = dict((n, r) for n, r in slot_to_item_results)
 
         headwear = slot_to_worn_item['HEADWEAR']

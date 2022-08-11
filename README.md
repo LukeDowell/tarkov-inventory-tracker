@@ -598,3 +598,23 @@ to go towards some other pre-processing steps; if letters are really just a coll
 joined edges, maybe we can do some edge-analysis on the screen + template before trying to match? Perhaps the color
 difference just isn't different enough since all the letters take a similar amount of area, and they all have 
 the same colors.
+
+
+Wrote a test to try and improve on my item-template settings. It's pretty awful but I was rewarded with this output:
+
+```
+Took 172.71250176429749 millis
+ Best settings for item matching:
+            Font Size: 17
+            Font: Bender-Black
+            Background Color: (0, 0, 0)
+            Stroke Width: 1
+            Stroke Fill: (35, 35, 30)
+            Text Fill: (255, 255, 255)
+            Mask: True
+```
+
+There were some changes to be made from that! Unfortunately the settings were not 100% effective; `TC 800` overrides 
+`TC-2001` and `TC-2002`. I'm wondering if this could be fixed with length; What if all the templates were of the same size, with the text adjusted to match? 
+I could take a screenshot of the empty background, write the text on that, and use that as a template? It should literally be a perfect 
+match. 

@@ -24,8 +24,11 @@ class SlotResult:
     equipment_found: list[EquipmentMatch]
 
 
-def find_equipment_for_slot(slot: Slot, src: numpy.array, threshold: float = .80) -> Optional[EquipmentMatch]:
-    item_results = list(map(lambda t: (t[0], template_match(src, t[1])), SLOT_TEMPLATES[slot].item_templates))
+def find_equipment_for_slot(slot: Slot,
+                            src: numpy.array,
+                            templates: list[str, numpy.array],
+                            threshold: float = .80) -> Optional[EquipmentMatch]:
+    item_results = list(map(lambda t: (t[0], template_match(src, t[1])), templates))
     item_results.sort(key=lambda t: t[1][1], reverse=True)
     if len(item_results) == 0:
         return None
