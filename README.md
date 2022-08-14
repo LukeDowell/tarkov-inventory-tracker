@@ -618,3 +618,16 @@ There were some changes to be made from that! Unfortunately the settings were no
 `TC-2001` and `TC-2002`. I'm wondering if this could be fixed with length; What if all the templates were of the same size, with the text adjusted to match? 
 I could take a screenshot of the empty background, write the text on that, and use that as a template? It should literally be a perfect 
 match. 
+
+
+## 08/13/2022
+
+My test results were really not as good as I had expected them to be. I started digging into everything, setting
+down breakpoints and inspecting all the images side-by-side with `cv2.imshow` and realized that I had not accounted for
+the different 'states' an image can be in when a player has equipped an item. The colors change if the item is equipped,
+if the player is hovering over the item with their cursor, and the border changes if the item is insured. 
+
+I ended up going back and making sure my template background was the default, non-highlighted and non-insured version. I 
+trimmed the insurance border out so hopefully that doesn't impact the results later. I ran my test and was successful! 
+The real-world situation is a bit different, unfortunately. I still have a hard time matching helmets with as good of a 
+rate as I had before introducing the background image. Hm.
